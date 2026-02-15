@@ -18,7 +18,7 @@ BLUR     = 1  # Blurring Filter
 FEATURES = 2  # Corner Feature Detector
 CANNY    = 3  # Canny Edge Detector
 
-feature_params = dict(maxCorners=500, qualityLevel=0.2, minDistance=15, blockSize=9)
+feature_params = dict(maxCorners=500, qualityLevel=0.05, minDistance=15, blockSize=9)
 s = 0
 if len(sys.argv) > 1:
     s = sys.argv[1]
@@ -42,7 +42,7 @@ while alive:
     if image_filter == PREVIEW:
         result = frame
     elif image_filter == CANNY:
-        result = cv2.Canny(frame, 80, 150)
+        result = cv2.Canny(frame, 50, 150)
     elif image_filter == BLUR:
         result = cv2.blur(frame, (13, 13))
     elif image_filter == FEATURES:
@@ -51,7 +51,7 @@ while alive:
         corners = cv2.goodFeaturesToTrack(frame_gray, **feature_params)
         if corners is not None:
             for x, y in numpy.float32(corners).reshape(-1, 2):
-                cv2.circle(result, (x, y), 10, (0, 255, 0), 1)
+                cv2.circle(result, (int(x), int(y)), 10, (0, 255, 0), 1)
 
     cv2.imshow(win_name, result)
 
